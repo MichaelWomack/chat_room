@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Chat Room</title>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/main.css" type="text/css" rel="stylesheet">
+<body>
+
+<div class="page-header">
+  <h1 class="text-center">Welcome to Chat!</h1>
+</div>
+
+<div class="container">
+  <div id="chat-container" class="row">
+    <div class="col-md-8 panel panel-primary">
+      <h3 class="panel-heading">Messages</h3>
+      <ul id="messages"></ul>
+    </div>
+
+    <div class="col-md-3 col-md-offset-1 panel panel-primary">
+      <h3 class="panel-heading">Online</h3>
+      <ul id="friends-list" class="list-group"></ul>
+    </div>
+  </div>
+
+  <div class="row">
+    <form class="form-horizontal">
+      <div class="form-group col-md-6">
+        <textarea rows="2" class="form-control" id="messageInput" type="text"
+                  placeholder="Message"></textarea>
+        <button class="btn btn-success" id="btn-submit" type="submit">Send
+          <i class="glyphicon glyphicon-envelope"></i>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+<!--JS scripts-->
+<script src="https://cdn.jsdelivr.net/socket.io-client/1.3.2/socket.io.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.min.js"></script>
+<script src="js/client.js"></script>
+</body>
+</html>

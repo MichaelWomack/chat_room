@@ -1,0 +1,21 @@
+
+ul {
+    list-style-type: none;
+}
+
+#btn-submit {
+    margin-top: 10px;
+}
+
+#messages {
+    height: 100px;
+    overflow-y: auto;
+    position: relative;
+    word-wrap: normal;
+    bottom: 0;
+}
+
+.panel {
+
+}
+
