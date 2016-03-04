@@ -4,24 +4,34 @@ var http = require('http').Server(app);
 var bodyParser = require('body-parser');
 var io = require('socket.io')(http);
 
-var clients = [];
+var clients = [{"username": "fakeUser1"}];
 
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
+
 app.get('/', function(req, res) {
    res.sendFile(__dirname + '/login.html');
 });
+
 
 app.post('/login', function(req, res) {
     clients.push(req.body);
     res.json({message: "Success!"});
 });
 
+
 app.get('/user', function(req, res) {
     console.log(clients[clients.length - 1]);
     res.json(clients[clients.length - 1]);
+});
+
+
+app.get('/users', function(req, res) {
+  console.log("Users");
+  console.log(clients);
+  res.json({"clients":clients});
 });
 
 io.on('connection', function(socket) {
@@ -37,7 +47,10 @@ io.on('connection', function(socket) {
     });
 
     socket.on('disconnect', function() {
+       console.log("disconnect: " + socket.user.username);
+       var userIndex = clients.indexOf(socket.user);
        io.emit('user disconnected', socket.user);
+       clients.splice(userIndex, 1);
     });
 });
 

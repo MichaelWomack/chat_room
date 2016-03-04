@@ -1,6 +1,7 @@
 $(document).ready(function () {
     var socket = io();
     var user;
+    var users;
 
     $.get('/user', function (userData) {
         user = {
@@ -9,20 +10,23 @@ $(document).ready(function () {
         };
 
     }).then(function() {
-        socket.emit('user connected', user);
         socket.user = user;
     });
 
-
-    /* New user joins */
-    socket.on('user connected', function (user) {
-        var newUser = '<li class="list-group-item">' +
-            '<span>' + user.username + '</span>' +
-            '<i class="glyphicon glyphicon-user"></i>' +
-            '</li>';
-        $('#friends-list').append(newUser);
-        //addToUsers(user);
+    $.get('/users', function(allUsers) {
+        users = allUsers;
+    }).then(function() {
+      socket.emit('user connected', users);
     });
+
+
+    socket.on('user connected', function(data) {
+        $('#friends-list').empty();
+        data.clients.forEach(function(user, index, clients) {
+            addToUsers(user);
+        });
+    });
+
 
     $('form').submit(function () {
         var messageInput = $('#messageInput');
@@ -42,17 +46,26 @@ $(document).ready(function () {
         var messageEl = $('#messages');
         messageEl.append(newMessage);
         messageEl.scrollTop(messageEl[0].scrollHeight - messageEl[0].clientHeight);
+    });
 
+
+
+    socket.on('user disconnected', function(disconnectedUser) {
+
+         /* Repopulate with updated friends list */
+         $.get('/users', function(allUsers) {
+                users = allUsers;
+            }).then(function() {
+              socket.emit('user connected', users);
+            });
     });
 });
 
-var addToUsers = function (user) {
+
+var addToUsers = function (userData) {
     var newUser = '<li class="list-group-item">' +
-        '<span>' + user.username + '</span>' +
+        '<span>' + userData.username + '</span>' +
         '<i class="glyphicon glyphicon-user"></i>' +
         '</li>';
     $('#friends-list').append(newUser);
 };
-
-
-
