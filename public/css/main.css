@@ -15,7 +15,16 @@ ul {
     bottom: 0;
 }
 
+#friends-list {
+
+}
+
 .panel {
 
+}
+
+#friends-list li:hover {
+    background-color: aliceblue;
+    cursor: pointer;
 }
 

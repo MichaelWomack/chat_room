@@ -3,26 +3,14 @@ $(document).ready(function () {
     var user;
     var users;
 
-    $.get('/user', function (userData) {
-        user = {
-            name: userData.name,
-            username: userData.username
-        };
-
-    }).then(function() {
-        socket.user = user;
+    socket.on('client username', function(myUsername) {
+        user = myUsername;
     });
 
-    $.get('/users', function(allUsers) {
-        users = allUsers;
-    }).then(function() {
-      socket.emit('user connected', users);
-    });
-
-
-    socket.on('user connected', function(data) {
+    socket.on('update users', function(connectedUsers) {
+        users = connectedUsers;
         $('#friends-list').empty();
-        data.clients.forEach(function(user, index, clients) {
+        users.forEach(function(user, index, clients) {
             addToUsers(user);
         });
     });
@@ -31,41 +19,31 @@ $(document).ready(function () {
     $('form').submit(function () {
         var messageInput = $('#messageInput');
         if (messageInput.val() != "")
-            socket.emit('send message', messageInput.val());
+            socket.emit('public message', {user: user, message: messageInput.val()});
         messageInput.val('');
         return false;
     });
 
 
-    socket.on('send message', function (message) {
+    socket.on('public message', function (data) {
         var newMessage = $('<li>');
-        var userName = $('<strong>').text(user.username + ": ");
-        var messageContent = $('<span>').text(message)
+        var userName = $('<strong>').text(data.user + ": ");
+        var messageContent = $('<span>').text(data.message);
         newMessage.append(userName);
         newMessage.append(messageContent);
         var messageEl = $('#messages');
         messageEl.append(newMessage);
         messageEl.scrollTop(messageEl[0].scrollHeight - messageEl[0].clientHeight);
     });
-
-
-
-    socket.on('user disconnected', function(disconnectedUser) {
-
-         /* Repopulate with updated friends list */
-         $.get('/users', function(allUsers) {
-                users = allUsers;
-            }).then(function() {
-              socket.emit('user connected', users);
-            });
-    });
 });
 
 
-var addToUsers = function (userData) {
+var addToUsers = function (user) {
     var newUser = '<li class="list-group-item">' +
-        '<span>' + userData.username + '</span>' +
+        '<span>' + user + '</span>' +
         '<i class="glyphicon glyphicon-user"></i>' +
         '</li>';
     $('#friends-list').append(newUser);
 };
+
+

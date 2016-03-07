@@ -13,14 +13,18 @@
 
 <div class="container">
   <div id="chat-container" class="row">
-    <div class="col-md-8 panel panel-primary">
+    <div class="col-md-8 panel panel-info">
       <h3 class="panel-heading">Messages</h3>
       <ul id="messages"></ul>
     </div>
 
-    <div class="col-md-3 col-md-offset-1 panel panel-primary">
-      <h3 class="panel-heading">Online</h3>
-      <ul id="friends-list" class="list-group"></ul>
+
+    <div class="col-md-3 col-md-offset-1 ">
+      <div class="panel panel-info">
+        <h3 class="panel-heading">Online</h3>
+        <ul id="friends-list" class="list-group"></ul>
+      </div>
+      <button class="btn btn-info">private chat</button>
     </div>
   </div>
 
@@ -29,7 +33,7 @@
       <div class="form-group col-md-6">
         <textarea rows="2" class="form-control" id="messageInput" type="text"
                   placeholder="Message"></textarea>
-        <button class="btn btn-success" id="btn-submit" type="submit">Send
+        <button class="btn btn-success" id="btn-submit" type="submit">send
           <i class="glyphicon glyphicon-envelope"></i>
         </button>
       </div>

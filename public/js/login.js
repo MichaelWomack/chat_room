@@ -11,6 +11,9 @@ $(document).ready(function () {
             dataType: 'json',
             success: function (result) {
                 window.location.href = "/";
+            },
+            error: function() {
+                /* display error */
             }
         });
     });
