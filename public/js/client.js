@@ -13,6 +13,10 @@ $(document).ready(function () {
         users.forEach(function(user, index, clients) {
             addToUsers(user);
         });
+
+        $('#friends-list li').on('click', function() {
+            $(this).toggleClass('selected-user')
+        });
     });
 
 
@@ -35,6 +39,8 @@ $(document).ready(function () {
         messageEl.append(newMessage);
         messageEl.scrollTop(messageEl[0].scrollHeight - messageEl[0].clientHeight);
     });
+
+
 });
 
 
@@ -45,5 +51,7 @@ var addToUsers = function (user) {
         '</li>';
     $('#friends-list').append(newUser);
 };
+
+
 
 

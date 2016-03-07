@@ -15,16 +15,19 @@ ul {
     bottom: 0;
 }
 
-#friends-list {
-
+#friends-list li {
+    cursor:pointer;
 }
 
-.panel {
-
+#friends-list li:hover:not(.selected-user) {
+    background-color: ghostwhite;
 }
 
-#friends-list li:hover {
+.selected-user, .selected-user:hover {
     background-color: aliceblue;
-    cursor: pointer;
 }
+
+
+
+
 
