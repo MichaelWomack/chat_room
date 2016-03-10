@@ -13,20 +13,23 @@
 
 <div class="container">
   <div id="chat-container" class="row">
-    <div class="col-md-8 panel panel-info">
+    <div class="col-md-6 panel panel-info">
       <h3 class="panel-heading">Messages</h3>
       <ul id="messages"></ul>
     </div>
-
-
-    <div class="col-md-3 col-md-offset-1 ">
+    <div class="col-md-4">
+      <div class="panel panel-info">
+        <h3 class="panel-heading">Files</h3>
+        <ul id="uploadedFiles"></ul>
+      </div>
+    </div>
+    <div class="col-md-2">
       <div class="panel panel-info">
         <h3 class="panel-heading">Online</h3>
         <ul id="friends-list" class="list-group"></ul>
       </div>
     </div>
   </div>
-
   <div class="row">
     <form class="form-horizontal">
       <div class="form-group col-md-6">
@@ -43,15 +46,14 @@
       </div>
     </form>
   </div>
-</div>
-
-<div class="input-group">
-        <span class="input-group-btn">
-          <span class="btn btn-primary btn-file">
-            Browse&hellip; <input type="file" multiple>
-            </span>
+  <div class="input-group col-md-6">
+      <span class="input-group-btn">
+        <span class="btn btn-primary btn-file">
+          Browse&hellip; <input type="file" multiple>
           </span>
-  <input type="text" class="form-control" readonly>
+        </span>
+    <input type="text" class="form-control" readonly>
+  </div>
 </div>
 
 
