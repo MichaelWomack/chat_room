@@ -3,6 +3,7 @@ $(document).ready(function () {
     var user;
     var users;
 
+    //Grab the username and appends to message.
     socket.on('client username', function(myUsername) {
         user = myUsername;
     });
@@ -28,6 +29,10 @@ $(document).ready(function () {
         return false;
     });
 
+    $('#btn-uploadFile').click(function () {
+        $(":file");
+    });
+
 
     socket.on('public message', function (data) {
         var newMessage = $('<li>');
@@ -46,8 +51,8 @@ $(document).ready(function () {
 
 var addToUsers = function (user) {
     var newUser = '<li class="list-group-item">' +
-        '<span>' + user + '</span>' +
         '<i class="glyphicon glyphicon-user"></i>' +
+        '<span>' + " " + user + '</span>' +
         '</li>';
     $('#friends-list').append(newUser);
 };

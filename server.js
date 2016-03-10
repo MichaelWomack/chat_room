@@ -17,6 +17,8 @@ app.get('/', function (req, res) {
     res.sendFile(__dirname + '/login.html');
 });
 
+
+
 app.post('/login', function (req, res) {
     var userName = req.body.username;
     if (userName.indexOf(' ') > -1) {
@@ -34,7 +36,10 @@ io.on('connection', function (socket) {
     connected[latestUser] = socket;
     socket.user = latestUser;
 
+    //Only emit it to that socket
     socket.emit('client username', latestUser);
+
+
     io.emit('update users', Object.keys(connected));
 
     socket.on('public message', function (message) {
