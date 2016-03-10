@@ -24,21 +24,34 @@
         <h3 class="panel-heading">Online</h3>
         <ul id="friends-list" class="list-group"></ul>
       </div>
-      <button class="btn btn-info">private chat</button>
     </div>
   </div>
 
   <div class="row">
     <form class="form-horizontal">
       <div class="form-group col-md-6">
+      <div class="form-group col-md-6">
         <textarea rows="2" class="form-control" id="messageInput" type="text"
                   placeholder="Message"></textarea>
-        <button class="btn btn-success" id="btn-submit" type="submit">send
+        <button class="btn btn-primary" id="btn-submit" type="submit">send
           <i class="glyphicon glyphicon-envelope"></i>
         </button>
+        <button class="btn btn-secondary" id="btn-uploadFile" type="button">upload
+          <i class="glyphicon glyphicon-upload"></i>
+        </button>
       </div>
+
     </form>
   </div>
+</div>
+
+<div class="input-group">
+        <span class="input-group-btn">
+          <span class="btn btn-primary btn-file">
+            Browse&hellip; <input type="file" multiple>
+            </span>
+          </span>
+  <input type="text" class="form-control" readonly>
 </div>
 
 
