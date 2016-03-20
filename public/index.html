@@ -6,6 +6,16 @@
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
   <link href="css/main.css" type="text/css" rel="stylesheet">
 <body>
+<nav class="navbar navbar-default" role="navigation">
+  <div class="navbar-header">
+    <a class="navbar-brand">Chat Application</a>
+  </div>
+  <div class="container-fluid">
+    <ul class="nav navar-nav navbar-right">
+      <li><a href="login.html" id="btn-disconnect"><span class="glyphicon glyphicon-user"></span> Log Out </a></li>
+    </ul>
+  </div>
+</nav>
 
 <div class="page-header">
   <h1 class="text-center">Public Chat</h1>
@@ -33,16 +43,14 @@
   <div class="row">
     <form class="form-horizontal">
       <div class="form-group col-md-6">
-        <div class="form-group col-md-6">
-          <textarea rows="2" class="form-control" id="messageInput" type="text"
-                    placeholder="Message"></textarea>
-          <button class="btn btn-primary" id="btn-submit" type="submit">send
-            <i class="glyphicon glyphicon-envelope"></i>
-          </button>
-          <button class="btn btn-secondary" id="btn-uploadFile" type="button">upload
-            <i class="glyphicon glyphicon-upload"></i>
-          </button>
-          </div>
+        <textarea rows="2" class="form-control" id="messageInput" type="text"
+                  placeholder="Message"></textarea>
+        <button class="btn btn-primary" id="btn-submit" type="submit">send
+          <i class="glyphicon glyphicon-envelope"></i>
+        </button>
+        <button class="btn btn-secondary" id="btn-uploadFile" type="button">upload
+          <i class="glyphicon glyphicon-upload"></i>
+        </button>
       </div>
     </form>
   </div>

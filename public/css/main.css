@@ -13,7 +13,15 @@ ul {
 }
 
 #messages {
-    height: 100px;
+    height: 250px;
+    overflow-y: auto;
+    position: relative;
+    word-wrap: normal;
+    bottom: 0;
+}
+
+#uploadedFiles {
+    height: 250px;
     overflow-y: auto;
     position: relative;
     word-wrap: normal;
@@ -31,6 +39,8 @@ ul {
 .selected-user, .selected-user:hover {
     background-color: aliceblue;
 }
+
+
 .btn-file {
     position: relative;
     overflow: hidden;

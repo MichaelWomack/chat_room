@@ -7,7 +7,6 @@ $(document).ready(function () {
     socket.on('client username', function(myUsername) {
         user = myUsername;
     });
-
     socket.on('update users', function(connectedUsers) {
         users = connectedUsers;
         $('#friends-list').empty();
@@ -19,8 +18,6 @@ $(document).ready(function () {
             $(this).toggleClass('selected-user')
         });
     });
-
-
     $('form').submit(function () {
         var messageInput = $('#messageInput');
         if (messageInput.val() != "")
@@ -28,12 +25,9 @@ $(document).ready(function () {
         messageInput.val('');
         return false;
     });
-
     $('#btn-uploadFile').click(function () {
         $(":file");
-    });
-
-
+    })
     socket.on('public message', function (data) {
         var newMessage = $('<li>');
         var userName = $('<strong>').text(data.user + ": ");
@@ -45,7 +39,23 @@ $(document).ready(function () {
         messageEl.scrollTop(messageEl[0].scrollHeight - messageEl[0].clientHeight);
     });
 
+    $('#btn-disconnect').click(function() {
 
+        socket.disconnect();
+        removeFromUsers(user);
+        console.log(user + "logged out");
+    });
+
+    var removeFromUsers = function (user) {
+        var index = users.indexOf(user);
+        if (index > -1) {
+            users.splice(index, 1);
+        }
+        $('#friends-list').empty();
+        users.forEach(function(user, index, clients) {
+            addToUsers(user);
+        });
+    };
 });
 
 
@@ -56,6 +66,8 @@ var addToUsers = function (user) {
         '</li>';
     $('#friends-list').append(newUser);
 };
+
+
 
 
 
