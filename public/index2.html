@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Chat Room</title>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/main.css" type="text/css" rel="stylesheet">
+<body>
+<nav class="navbar navbar-default" role="navigation">
+  <div class="navbar-header">
+    <a class="navbar-brand">Chat Application</a>
+  </div>
+  <div class="container-fluid">
+    <ul class="nav navar-nav navbar-right">
+      <li><a href="index.html" id="btn-disconnect"><span class="glyphicon glyphicon-user"></span> Log Out </a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-header">
+  <h1 class="text-center">Public Chat</h1>
+</div>
+
+<div class="container">
+  <div id="chat-container" class="row">
+    <div class="col-md-6 panel panel-info">
+      <h3 class="panel-heading">Messages</h3>
+      <ul id="messages"></ul>
+    </div>
+    <div class="col-md-4">
+      <div class="panel panel-info">
+        <h3 class="panel-heading">Files</h3>
+        <ul id="uploadedFiles"></ul>
+      </div>
+    </div>
+    <div class="col-md-2">
+      <div class="panel panel-info">
+        <h3 class="panel-heading">Online</h3>
+        <ul id="friends-list" class="list-group"></ul>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <form class="form-horizontal">
+      <div class="form-group col-md-6">
+        <textarea rows="2" class="form-control" id="messageInput" type="text"
+                  placeholder="Message"></textarea>
+        <button class="btn btn-primary" id="btn-submit" type="submit">send
+          <i class="glyphicon glyphicon-envelope"></i>
+        </button>
+        <button class="btn btn-secondary" id="btn-uploadFile" type="button">upload
+          <i class="glyphicon glyphicon-upload"></i>
+        </button>
+      </div>
+    </form>
+  </div>
+  <div class="input-group col-md-6">
+      <span class="input-group-btn">
+        <span class="btn btn-primary btn-file">
+          Browse&hellip; <input type="file" multiple>
+          </span>
+        </span>
+    <input type="text" class="form-control" readonly>
+  </div>
+</div>
+
+
+<!--JS scripts-->
+<script src="https://cdn.jsdelivr.net/socket.io-client/1.3.2/socket.io.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.min.js"></script>
+<script src="js/client.js"></script>
+</body>
+</html>

@@ -7,6 +7,7 @@ var io = require('socket.io')(http);
 var clients = [{"username": "fakeUser1"}];
 var latestUser;
 var connected = {};
+var messageList = [];
 
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json());
@@ -14,9 +15,8 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 
 app.get('/', function (req, res) {
-    res.sendFile(__dirname + '/login.html');
+    res.sendFile(__dirname + '/index.html');
 });
-
 
 
 app.post('/login', function (req, res) {
@@ -33,27 +33,36 @@ app.post('/login', function (req, res) {
 });
 
 io.on('connection', function (socket) {
-    connected[latestUser] = socket;
-    socket.user = latestUser;
+    if (latestUser != undefined) {
+        connected[latestUser] = socket;
+        socket.user = latestUser;
+        socket.emit('client username', latestUser);
+    }
 
-    //Only emit it to that socket
-    socket.emit('client username', latestUser);
-
-
+    /* Populate users and messages to new client */
     io.emit('update users', Object.keys(connected));
+    io.emit('public message', messageList);
 
     socket.on('public message', function (message) {
-        io.emit('public message', message);
+        messageList.push(message);
+        io.emit('public message', messageList);
     });
 
     socket.on('disconnect', function () {
-        if (socket.user) {
-            console.log(socket.user.username + ' disconnected');
-            delete connected[socket.user.username];
-        }
-        io.emit('user connected', Object.keys(connected));
+        delete connected[this.user];
+        console.log(this.user + " disconnected");
+        io.emit('update users', Object.keys(connected));
     });
 
+    /* Create nofification for when user disconnects */
+
+
+    //socket.on('remove user', function(user) {
+    //    console.log('connected')
+    //    delete connected[user];
+    //    io.emit('update users', Object.keys(connected));
+    //    console.log("THis happened");
+    //});
 
 });
 

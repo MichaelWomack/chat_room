@@ -6,7 +6,11 @@ $(document).ready(function () {
     //Grab the username and appends to message.
     socket.on('client username', function(myUsername) {
         user = myUsername;
+        if (user == undefined) {
+            window.location = '/';
+        }
     });
+
     socket.on('update users', function(connectedUsers) {
         users = connectedUsers;
         $('#friends-list').empty();
@@ -18,6 +22,7 @@ $(document).ready(function () {
             $(this).toggleClass('selected-user')
         });
     });
+
     $('form').submit(function () {
         var messageInput = $('#messageInput');
         if (messageInput.val() != "")
@@ -25,37 +30,40 @@ $(document).ready(function () {
         messageInput.val('');
         return false;
     });
+
     $('#btn-uploadFile').click(function () {
         $(":file");
-    })
+    });
+
     socket.on('public message', function (data) {
-        var newMessage = $('<li>');
-        var userName = $('<strong>').text(data.user + ": ");
-        var messageContent = $('<span>').text(data.message);
-        newMessage.append(userName);
-        newMessage.append(messageContent);
         var messageEl = $('#messages');
-        messageEl.append(newMessage);
-        messageEl.scrollTop(messageEl[0].scrollHeight - messageEl[0].clientHeight);
+        messageEl.empty();
+        data.forEach(function(msg, index, msgList) {
+            var newMessage = $('<li>');
+            var userName = $('<strong>').text(msg.user + ": ");
+            var messageContent = $('<span>').text(msg.message);
+            newMessage.append(userName);
+            newMessage.append(messageContent);
+            messageEl.append(newMessage);
+            messageEl.scrollTop(messageEl[0].scrollHeight - messageEl[0].clientHeight);
+        });
     });
 
     $('#btn-disconnect').click(function() {
-
         socket.disconnect();
-        removeFromUsers(user);
-        console.log(user + "logged out");
     });
 
-    var removeFromUsers = function (user) {
-        var index = users.indexOf(user);
-        if (index > -1) {
-            users.splice(index, 1);
-        }
-        $('#friends-list').empty();
-        users.forEach(function(user, index, clients) {
-            addToUsers(user);
-        });
-    };
+
+    //var removeFromUsers = function (user) {
+    //    var index = users.indexOf(user);
+    //    if (index > -1) {
+    //        users.splice(index, 1);
+    //    }
+    //    $('#friends-list').empty();
+    //    users.forEach(function(user, index, clients) {
+    //        addToUsers(user);
+    //    });
+    //};
 });
 
 

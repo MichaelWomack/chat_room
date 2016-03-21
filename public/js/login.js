@@ -10,7 +10,7 @@ $(document).ready(function () {
             },
             dataType: 'json',
             success: function (result) {
-                window.location.href = "/";
+                window.location.href = "/chat.html";
             },
             error: function() {
                 /* display error */
