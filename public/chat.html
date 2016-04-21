@@ -8,11 +8,11 @@
 <body>
 <nav class="navbar navbar-default" role="navigation">
   <div class="navbar-header">
-    <a class="navbar-brand">Chat Application</a>
+    <a class="navbar-brand">CDM Chat</a>
   </div>
   <div class="container-fluid">
     <ul class="nav navar-nav navbar-right">
-      <li><a href="index.html" id="btn-disconnect"><span class="glyphicon glyphicon-user"></span> Log Out </a></li>
+      <li><a href="/" id="btn-disconnect"><span class="glyphicon glyphicon-user"></span> Log Out </a></li>
     </ul>
   </div>
 </nav>
@@ -22,15 +22,14 @@
 </div>
 
 <div class="container">
-  <div id="chat-container" class="row">
-    <div class="col-md-6 panel panel-info">
+    <div class="col-md-7 panel panel-info">
       <h3 class="panel-heading">Messages</h3>
       <ul id="messages"></ul>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
       <div class="panel panel-info">
         <h3 class="panel-heading">Files</h3>
-        <ul id="uploadedFiles"></ul>
+        <div class = 'list-group' id="uploadedFiles"></div>
       </div>
     </div>
     <div class="col-md-2">
@@ -39,32 +38,34 @@
         <ul id="friends-list" class="list-group"></ul>
       </div>
     </div>
-  </div>
   <div class="row">
-    <form class="form-horizontal">
+    <form class="form-horizontal" id = "messageForm">
       <div class="form-group col-md-6">
         <div class="form-group col-md-6">
           <input class="form-control" id="messageInput" type="text"
-                 placeholder="Message">
-          <button class="btn btn-primary" id="btn-submit" type="submit">send
+                 placeholder="Message" autocomplete="off">
+          <button class="btn btn-primary" id="btn-submit" type="submit">
             <i class="glyphicon glyphicon-envelope"></i>
-          </button>
-          <button class="btn btn-secondary" id="btn-uploadFile" type="button">upload
-            <i class="glyphicon glyphicon-upload"></i>
+            Send
           </button>
         </div>
       </div>
     </form>
   </div>
   <div class="row">
-    <div class="input-group col-md-6">
-      <span class="input-group-btn">
-        <span class="btn btn-primary btn-file">
-          Browse&hellip; <input type="file" multiple>
-          </span>
-      </span>
-      <input type="text" class="form-control" readonly>
-    </div>
+    <form id = "uploadForm" enctype = "multipart/form-data" action = "/uploadFile" method = "post" >
+      <input type = "file" name = "userFile" />
+      <input type = "submit" value = "Upload File" name="submit">
+      <span id = "status"></span>
+    </form>
+  </div>
+  <div class="row">
+    <form id="getFiles" action="/downloads/" method="get">
+      <button class="btn btn-primary" id="btn-download" type="submit">
+        <i class="glyphicon glyphicon-refresh"></i>
+        Reload Files
+      </button>
+    </form>
   </div>
 </div>
 

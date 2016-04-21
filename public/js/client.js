@@ -2,6 +2,7 @@ $(document).ready(function () {
     var socket = io();
     var user;
     var users;
+    var files;
 
     //Grab the username and appends to message.
     socket.on('client username', function(myUsername) {
@@ -13,6 +14,7 @@ $(document).ready(function () {
 
     socket.on('update users', function(connectedUsers) {
         users = connectedUsers;
+        console.log("Users: " + users.length);
         $('#friends-list').empty();
         users.forEach(function(user, index, clients) {
             addToUsers(user);
@@ -23,16 +25,31 @@ $(document).ready(function () {
         });
     });
 
-    $('form').submit(function () {
+    socket.on('update files', function(listFiles) {
+        console.log("Number of Files: " + listFiles.length);
+        var count = 0;
+        $('#uploadedFiles').empty();
+        files = listFiles;
+        files.forEach(function() {
+            addToFileList(count, files);
+            count++;
+        });
+
+    });
+
+    $('#uploadForm').submit(function () {
+        var file = $('#userFile');
+        $('#status').empty().text('File uploaded.');
+        alert("File uploaded." + files.length);
+
+    });
+
+    $('#messageForm').submit(function () {
         var messageInput = $('#messageInput');
         if (messageInput.val() != "")
             socket.emit('public message', {user: user, message: messageInput.val()});
         messageInput.val('');
         return false;
-    });
-
-    $('#btn-uploadFile').click(function () {
-        $(":file");
     });
 
     socket.on('public message', function (data) {
@@ -49,21 +66,10 @@ $(document).ready(function () {
         });
     });
 
+
     $('#btn-disconnect').click(function() {
         socket.disconnect();
     });
-
-
-    //var removeFromUsers = function (user) {
-    //    var index = users.indexOf(user);
-    //    if (index > -1) {
-    //        users.splice(index, 1);
-    //    }
-    //    $('#friends-list').empty();
-    //    users.forEach(function(user, index, clients) {
-    //        addToUsers(user);
-    //    });
-    //};
 });
 
 
@@ -73,6 +79,16 @@ var addToUsers = function (user) {
         '<span>' + " " + user + '</span>' +
         '</li>';
     $('#friends-list').append(newUser);
+};
+
+
+var addToFileList = function (count, files) {
+    var newFile = '<a href="/downloads/' + count + '"' + ' class="list-group-item"> ' +
+        '<i class="glyphicon glyphicon-file"></i>' +
+        ' ' +
+        files[count] +
+        '</a>';
+    $('#uploadedFiles').append(newFile);
 };
 
 

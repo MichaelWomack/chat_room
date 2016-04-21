@@ -3,21 +3,65 @@ var app = express();
 var http = require('http').Server(app);
 var bodyParser = require('body-parser');
 var io = require('socket.io')(http);
+var multer = require('multer');
+var fs = require('fs');
 
+var storage = multer.diskStorage({
+    destination: function(req, file, callback) {
+        callback(null, './public/uploads');
+    },
+    filename: function (req, file, callback) {
+        callback(null, Date.now() + '-' + file.originalname);
+    }
+});
+
+var upload = multer({ storage : storage}).single('userFile');
 var clients = [{"username": "fakeUser1"}];
 var latestUser;
 var connected = {};
 var messageList = [];
+var listFiles = [];
+
 
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
-
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '/index.html');
 });
 
+app.get('/downloads/', function(req, res) {
+    var uploadPath = __dirname + '/public/uploads/';
+    fs.readdir(uploadPath, function(err, files) {
+        listFiles = files.slice(0);
+        io.emit('update files', listFiles);
+    });
+    console.log("Refreshed.");
+});
+
+app.get('/downloads/:fileId', function(req, res) {
+    var uploadPath = __dirname + '/public/uploads/';
+    var fileId = req.params.fileId;
+    fs.readdir(uploadPath, function(err, files) {
+        listFiles = files.slice(0);
+        listFiles.forEach(function(f) {
+            console.log('Files: ' + f);
+        });
+        var clickedFile = listFiles[fileId];
+        res.download(uploadPath + clickedFile.toString());
+    });
+});
+
+app.post('/uploadFile', function(req, res) {
+    upload(req, res, function(err) {
+        if (err) {
+            console.log("Error uploading file.");
+        }
+        console.log("File uploaded.");
+        res.redirect("back");
+    });
+});
 
 app.post('/login', function (req, res) {
     var userName = req.body.username;
@@ -43,6 +87,7 @@ io.on('connection', function (socket) {
     io.emit('update users', Object.keys(connected));
     io.emit('public message', messageList);
 
+
     socket.on('public message', function (message) {
         messageList.push(message);
         io.emit('public message', messageList);
@@ -53,19 +98,7 @@ io.on('connection', function (socket) {
         console.log(this.user + " disconnected");
         io.emit('update users', Object.keys(connected));
     });
-
-    /* Create nofification for when user disconnects */
-
-
-    //socket.on('remove user', function(user) {
-    //    console.log('connected')
-    //    delete connected[user];
-    //    io.emit('update users', Object.keys(connected));
-    //    console.log("THis happened");
-    //});
-
 });
-
 
 http.listen(8000);
 console.log("Listening on *:8000");
