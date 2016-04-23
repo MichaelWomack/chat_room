@@ -37,18 +37,38 @@ $(document).ready(function () {
 
     });
 
-    $('#uploadForm').submit(function () {
-        var file = $('#userFile');
-        $('#status').empty().text('File uploaded.');
-        alert("File uploaded." + files.length);
-
-    });
+    // $('#uploadForm').submit(function (e) {
+    //     var fileInput = $('input[type=file]');
+    //     // if (fileInput.get(0).files[0] == undefined) {
+    //     //     $('#status').empty().text('You must first select a file to upload.');
+    //     //     e.preventDefault();
+    //     // }
+    //     // } else {
+    //     //     $('#status').empty().text('File uploaded.');
+    //     // }
+    // });
+    
+    // $('input[type=file]').on('change', function() {
+    //    if ($(this).get(0).files[0] == undefined) {
+    //        $('#status').empty().text('You must first select a file to upload.');
+    //        e.preventDefault();
+    //    } else {
+    //        // $('#uploadForm').submit();
+    //    }
+    // });
 
     $('#messageForm').submit(function () {
         var messageInput = $('#messageInput');
-        if (messageInput.val() != "")
+        var $fileInput = $('input[type=file]');
+        if (messageInput.val() != "") {
             socket.emit('public message', {user: user, message: messageInput.val()});
-        messageInput.val('');
+            messageInput.val('');
+        }
+        
+        if ($fileInput.get(0).files[0] != undefined) {
+            $('#uploadForm').submit();
+            $fileInput.val("");
+        }
         return false;
     });
 

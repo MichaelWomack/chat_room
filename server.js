@@ -59,7 +59,7 @@ app.post('/uploadFile', function(req, res) {
             console.log("Error uploading file.");
         }
         console.log("File uploaded.");
-        res.redirect("back");
+        res.redirect("/downloads/");
     });
 });
 
@@ -87,7 +87,6 @@ io.on('connection', function (socket) {
     io.emit('update users', Object.keys(connected));
     io.emit('public message', messageList);
 
-
     socket.on('public message', function (message) {
         messageList.push(message);
         io.emit('public message', messageList);
@@ -100,5 +99,6 @@ io.on('connection', function (socket) {
     });
 });
 
-http.listen(8000);
-console.log("Listening on *:8000");
+http.listen(8000, function() {
+    console.log("Listening on *:8000");
+});
