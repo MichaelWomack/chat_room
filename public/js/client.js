@@ -36,26 +36,7 @@ $(document).ready(function () {
         });
 
     });
-
-    // $('#uploadForm').submit(function (e) {
-    //     var fileInput = $('input[type=file]');
-    //     // if (fileInput.get(0).files[0] == undefined) {
-    //     //     $('#status').empty().text('You must first select a file to upload.');
-    //     //     e.preventDefault();
-    //     // }
-    //     // } else {
-    //     //     $('#status').empty().text('File uploaded.');
-    //     // }
-    // });
     
-    // $('input[type=file]').on('change', function() {
-    //    if ($(this).get(0).files[0] == undefined) {
-    //        $('#status').empty().text('You must first select a file to upload.');
-    //        e.preventDefault();
-    //    } else {
-    //        // $('#uploadForm').submit();
-    //    }
-    // });
 
     $('#messageForm').submit(function () {
         var messageInput = $('#messageInput');
