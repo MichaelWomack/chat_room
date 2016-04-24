@@ -38,6 +38,11 @@ $(document).ready(function () {
     });
     
 
+    $('input[type=file]').on('change', function() {
+        var file = $(this).get(0).files[0];
+        $('#status').empty().text(file.name);
+    });
+
     $('#messageForm').submit(function () {
         var messageInput = $('#messageInput');
         var $fileInput = $('input[type=file]');
@@ -49,6 +54,7 @@ $(document).ready(function () {
         if ($fileInput.get(0).files[0] != undefined) {
             $('#uploadForm').submit();
             $fileInput.val("");
+            $('#status').empty();
         }
         return false;
     });
