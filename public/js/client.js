@@ -4,41 +4,53 @@ $(document).ready(function () {
     var users;
     var files;
 
+    $.ajax({
+        TYPE: 'GET',
+        url: '/downloads',
+        dataType: 'multipart/form-data',
+        success: function (data) {
+            files = data;
+            files.forEach(function () {
+                addToFileList(count, files);
+                count++;
+            });
+        }
+    });
+    
     //Grab the username and appends to message.
-    socket.on('client username', function(myUsername) {
+    socket.on('client username', function (myUsername) {
         user = myUsername;
         if (user == undefined) {
             window.location = '/';
         }
     });
 
-    socket.on('update users', function(connectedUsers) {
+    socket.on('update users', function (connectedUsers) {
         users = connectedUsers;
         console.log("Users: " + users.length);
         $('#friends-list').empty();
-        users.forEach(function(user, index, clients) {
+        users.forEach(function (user, index, clients) {
             addToUsers(user);
         });
 
-        $('#friends-list li').on('click', function() {
+        $('#friends-list li').on('click', function () {
             $(this).toggleClass('selected-user')
         });
     });
 
-    socket.on('update files', function(listFiles) {
+    socket.on('update files', function (listFiles) {
         console.log("Number of Files: " + listFiles.length);
         var count = 0;
         $('#uploadedFiles').empty();
         files = listFiles;
-        files.forEach(function() {
+        files.forEach(function () {
             addToFileList(count, files);
             count++;
         });
-
     });
-    
 
-    $('input[type=file]').on('change', function() {
+
+    $('input[type=file]').on('change', function () {
         var file = $(this).get(0).files[0];
         $('#status').empty().text(file.name);
     });
@@ -50,7 +62,7 @@ $(document).ready(function () {
             socket.emit('public message', {user: user, message: messageInput.val()});
             messageInput.val('');
         }
-        
+
         if ($fileInput.get(0).files[0] != undefined) {
             $('#uploadForm').submit();
             $fileInput.val("");
@@ -62,7 +74,7 @@ $(document).ready(function () {
     socket.on('public message', function (data) {
         var messageEl = $('#messages');
         messageEl.empty();
-        data.forEach(function(msg, index, msgList) {
+        data.forEach(function (msg, index, msgList) {
             var newMessage = $('<li>');
             var userName = $('<strong>').text(msg.user + ": ");
             var messageContent = $('<span>').text(msg.message);
@@ -74,7 +86,7 @@ $(document).ready(function () {
     });
 
 
-    $('#btn-disconnect').click(function() {
+    $('#btn-disconnect').click(function () {
         socket.disconnect();
     });
 });
